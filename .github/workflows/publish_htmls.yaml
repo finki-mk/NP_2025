@@ -22,28 +22,22 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Install pandoc
-        run: sudo apt-get install -y pandoc
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pypandoc
-
+          pip install -r requirements.txt
+      - name: Install pandoc
+        run: sudo apt-get install -y pandoc
       - name: Install xelatex
         run: sudo apt-get update && sudo apt-get install -y texlive-xetex
-
       - name: Run create_files.py
         run: python create_files.py
-
       - name: Create index files
         run: python create_index_pages.py
-
       - name: Upload HTML artifact
         uses: actions/upload-artifact@v4
         with:
